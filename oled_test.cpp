@@ -42,21 +42,24 @@ int main(int argc, char *argv[])
 
     switch (test_num) {
         case 0:
-            boxes();
+            oled.on();
             break;
         case 1:
-            stripes();
+            boxes();
             break;
         case 2:
-            dots();
+            stripes();
             break;
         case 3:
-            chars();
+            dots();
             break;
         case 4:
-            chars_at();
+            chars();
             break;
         case 5:
+            chars_at();
+            break;
+        case 6:
             fancy();
             break;
         default:
