@@ -4,9 +4,12 @@
 #include <cstring>
 #include <cstdio>
 #include <stdexcept>
+#include <iostream>
 #include "i2c_dev.h"
 #include "ssd1306_128x64.h"
 
+using std::cout;
+using std::endl;
 using std::invalid_argument;
 
 
@@ -141,10 +144,10 @@ void Ssd1306_128x64::set(int x, int y, int d)
 }
 
 
-// put character at (x, y) character coordinates
+// put character at (col, row) character coordinates
 // 5x7 characters are put in 6x8 cells
-// x = 0 ... 20 (for 128 pixels wide)
-// y = 0 ... 7 (for 64 pixels high)
+// col = 0 ... 20 (for 128 pixels wide)
+// row = 0 ... 7 (for 64 pixels high)
 void Ssd1306_128x64::putc(int col, int row, char c, uint8_t font[128][5])
 {
     if (col < 0 || col >= (cols / 6))
@@ -155,6 +158,52 @@ void Ssd1306_128x64::putc(int col, int row, char c, uint8_t font[128][5])
 
     for (int i = 0; i < 5; i++)
         _image[row][col * 6 + i] = font[int(c)][i];
+}
+
+
+// same thing, but character is double-sized
+// col, row is still the position of a single-sized character
+void Ssd1306_128x64::putc2(int col, int row, char c, uint8_t font[128][5])
+{
+    //cout << "putc2(col=" << col << ",row=" << row << ",c=" << int(c) << ",font)" << endl;
+
+    if (col < 0 || col >= (cols / 6 - 1))
+        throw invalid_argument("putc2: col out of range");
+
+    if (row < 0 || row >= (rows / 8 - 1))
+        throw invalid_argument("putc2: row out of range");
+
+    for (int i = 0; i < 5; i++) {
+        const uint8_t lo = lo2(font[int(c)][i]);
+        _image[row][col*6 + 2*i] = lo;
+        _image[row][col*6 + 2*i+1] = lo;
+        const uint8_t hi = hi2(font[int(c)][i]);
+        _image[row+1][col*6 + 2*i] = hi;
+        _image[row+1][col*6 + 2*i+1] = hi;
+    }
+}
+
+// double the low bits, e.g. 0x01001001 -> 0x11000011
+uint8_t Ssd1306_128x64::lo2(uint8_t b)
+{
+    uint8_t x = 0;
+    if (b & 0x01) x |= 0x03;
+    if (b & 0x02) x |= 0x0c;
+    if (b & 0x04) x |= 0x30;
+    if (b & 0x08) x |= 0xc0;
+    return x;
+}
+
+
+// double the high bits, e.g. 0x01001001 -> 0x00110000
+uint8_t Ssd1306_128x64::hi2(uint8_t b)
+{
+    uint8_t x = 0;
+    if (b & 0x10) x |= 0x03;
+    if (b & 0x20) x |= 0x0c;
+    if (b & 0x40) x |= 0x30;
+    if (b & 0x80) x |= 0xc0;
+    return x;
 }
 
 

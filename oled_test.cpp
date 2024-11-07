@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <cstdint>
 #include <cstdlib>
+#include <cstring>
 #include <cstdio>
 
 #include "i2c_dev.h"
@@ -17,8 +18,10 @@ static void boxes();
 static void stripes();
 static void dots();
 static void chars();
+static void chars2();
 static void chars_at();
 static void fancy();
+static void fancy2();
 
 
 int main(int argc, char *argv[])
@@ -57,10 +60,16 @@ int main(int argc, char *argv[])
             chars();
             break;
         case 5:
-            chars_at();
+            chars2();
             break;
         case 6:
+            chars_at();
+            break;
+        case 7:
             fancy();
+            break;
+        case 8:
+            fancy2();
             break;
         default:
             boxes();
@@ -75,10 +84,16 @@ int main(int argc, char *argv[])
             chars();
             sleep(1);
             oled.clear();
+            chars2();
+            sleep(1);
+            oled.clear();
             chars_at();
             sleep(1);
             oled.clear();
             fancy();
+            sleep(1);
+            oled.clear();
+            fancy2();
             break;
     }
 
@@ -133,6 +148,32 @@ static void chars()
 }
 
 
+static void chars2()
+{
+    const char *msg1 = "0123456789";
+    const int msg1_len = strlen(msg1);
+    for (int i = 0; i < msg1_len; i++)
+        oled.putc2(2*i, 0, msg1[i], font_5x7);
+
+    const char *msg2 = "ABCDEFGHIJ";
+    const int msg2_len = strlen(msg2);
+    for (int i = 0; i < msg2_len; i++)
+        oled.putc2(2*i, 2, msg2[i], font_5x7);
+
+    const char *msg3 = "KLMNOPQRST";
+    const int msg3_len = strlen(msg3);
+    for (int i = 0; i < msg3_len; i++)
+        oled.putc2(2*i, 4, msg3[i], font_5x7);
+
+    const char *msg4 = "!@#$%^&*()";
+    const int msg4_len = strlen(msg4);
+    for (int i = 0; i < msg4_len; i++)
+        oled.putc2(2*i, 6, msg4[i], font_5x7);
+
+    oled.flush();
+}
+
+
 static void chars_at()
 {
     // fill white
@@ -151,9 +192,22 @@ static void chars_at()
 static void fancy()
 {
     oled.box(40, 8, 87, 55);
-    oled.putc_at(62, 57, '0', font_5x7);
-    oled.putc_at(89, 29, '1', font_5x7);
-    oled.putc_at(62,  0, '2', font_5x7);
-    oled.putc_at(34, 29, '3', font_5x7);
+    oled.putc_at(62, 57, '0', font_5x7); // bottom
+    oled.putc_at(89, 29, '1', font_5x7); // right
+    oled.putc_at(62,  0, '2', font_5x7); // top
+    oled.putc_at(34, 29, '3', font_5x7); // left
+    oled.flush();
+}
+
+
+static void fancy2()
+{
+    //       x1  y1  x2  y2
+    oled.box(48, 16, 81, 45);
+    //        col row char
+    oled.putc2(10, 6, '4', font_5x7); // bottom
+    oled.putc2(14, 3, '5', font_5x7); // right
+    oled.putc2(10, 0, '6', font_5x7); // top
+    oled.putc2( 6, 3, '7', font_5x7); // left
     oled.flush();
 }

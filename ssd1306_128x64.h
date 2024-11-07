@@ -20,6 +20,7 @@ class Ssd1306_128x64
     void flush();
     void set(int x, int y, int d=1);
     void putc(int x, int y, char c, uint8_t font[128][5]);
+    void putc2(int col, int row, char c, uint8_t font[128][5]);
     void putc_at(int x, int y, char c, uint8_t font[128][5]);
     void hline(int x1, int x2, int y);
     void vline(int x, int y1, int y2);
@@ -42,4 +43,7 @@ class Ssd1306_128x64
 
     void page(int p);
     void column(int c);
+
+    static uint8_t lo2(uint8_t b);
+    static uint8_t hi2(uint8_t b);
 };
