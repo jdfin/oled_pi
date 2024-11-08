@@ -161,9 +161,14 @@ void Ssd1306_128x64::putc(int col, int row, char c, uint8_t font[128][5])
 }
 
 
+// col=0: left-aligned; col=-1: right-aligned; col=-2: centered
 void Ssd1306_128x64::puts(int col, int row, const char *s, uint8_t font[128][5])
 {
     const int s_len = strlen(s);
+    if (col == -1) // right
+        col = 21 - s_len;
+    else if (col == -2) // centered
+        col = 11 - (s_len + 1) / 2;
     for (int i = 0; i < s_len; i++)
         putc(col+i, row, *s++, font);
 }
@@ -192,9 +197,16 @@ void Ssd1306_128x64::putc2(int col, int row, char c, uint8_t font[128][5])
 }
 
 
+// col=0: left-aligned; col=-1: right-aligned; col=-2: centered
 void Ssd1306_128x64::puts2(int col, int row, const char *s, uint8_t font[128][5])
 {
     const int s_len = strlen(s);
+
+    if (col == -1) // right
+        col = 21 - s_len*2;
+    else if (col == -2) // centered
+        col = 11 - s_len;
+
     for (int i = 0; i < s_len; i++)
         putc2(col+2*i, row, *s++, font);
 }
