@@ -150,26 +150,10 @@ static void chars()
 
 static void chars2()
 {
-    const char *msg1 = "0123456789";
-    const int msg1_len = strlen(msg1);
-    for (int i = 0; i < msg1_len; i++)
-        oled.putc2(2*i, 0, msg1[i], font_5x7);
-
-    const char *msg2 = "ABCDEFGHIJ";
-    const int msg2_len = strlen(msg2);
-    for (int i = 0; i < msg2_len; i++)
-        oled.putc2(2*i, 2, msg2[i], font_5x7);
-
-    const char *msg3 = "KLMNOPQRST";
-    const int msg3_len = strlen(msg3);
-    for (int i = 0; i < msg3_len; i++)
-        oled.putc2(2*i, 4, msg3[i], font_5x7);
-
-    const char *msg4 = "!@#$%^&*()";
-    const int msg4_len = strlen(msg4);
-    for (int i = 0; i < msg4_len; i++)
-        oled.putc2(2*i, 6, msg4[i], font_5x7);
-
+    oled.puts2(0, 0, "0123456789", font_5x7);
+    oled.puts2(0, 2, "ABCDEFGHIJ", font_5x7);
+    oled.puts2(0, 4, "KLMNOPQRST", font_5x7);
+    oled.puts2(0, 6, "!@#$%^&*()", font_5x7);
     oled.flush();
 }
 
