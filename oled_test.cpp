@@ -22,6 +22,7 @@ static void chars2();
 static void chars_at();
 static void fancy();
 static void fancy2();
+static void fills();
 
 
 int main(int argc, char *argv[])
@@ -71,6 +72,9 @@ int main(int argc, char *argv[])
         case 8:
             fancy2();
             break;
+        case 9:
+            fills();
+            break;
         default:
             boxes();
             sleep(1);
@@ -94,6 +98,9 @@ int main(int argc, char *argv[])
             sleep(1);
             oled.clear();
             fancy2();
+            sleep(1);
+            oled.clear();
+            fills();
             break;
     }
 
@@ -189,5 +196,15 @@ static void fancy2()
     oled.putc2(14, 3, '5', font_5x7); // right
     oled.putc2(10, 0, '6', font_5x7); // top
     oled.putc2( 6, 3, '7', font_5x7); // left
+    oled.flush();
+}
+
+
+static void fills()
+{
+    //        x1  y1   x2  y2
+    oled.fill( 0,  0,   0,  0); // dot in upper left corner
+    oled.fill( 2,  2,   3,  3); // 2x2
+    oled.fill( 5,  0, 127, 63); // 2x2
     oled.flush();
 }

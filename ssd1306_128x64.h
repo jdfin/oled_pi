@@ -27,6 +27,7 @@ class Ssd1306_128x64
     void hline(int x1, int x2, int y);
     void vline(int x, int y1, int y2);
     void box(int x1, int y1, int x2, int y2);
+    void fill(int x1, int y1, int x2, int y2);
 
   private:
 

@@ -314,3 +314,27 @@ void Ssd1306_128x64::box(int x1, int y1, int x2, int y2)
     vline(x1, y1, y2);
     vline(x2, y1, y2);
 }
+
+
+void Ssd1306_128x64::fill(int x1, int y1, int x2, int y2)
+{
+    if (x1 > x2) {
+        // swap
+        int t = x1;
+        x1 = x2;
+        x2 = t;
+    }
+
+    if (y1 > y2) {
+        // swap
+        int t = y1;
+        y1 = y2;
+        y2 = t;
+    }
+
+    while (y1 <= y2) {
+        for (int x = x1; x <= x2; x++)
+            set(x, y1);
+        y1++;
+    }
+}
