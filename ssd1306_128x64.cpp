@@ -161,6 +161,14 @@ void Ssd1306_128x64::putc(int col, int row, char c, uint8_t font[128][5])
 }
 
 
+void Ssd1306_128x64::puts(int col, int row, const char *s, uint8_t font[128][5])
+{
+    const int s_len = strlen(s);
+    for (int i = 0; i < s_len; i++)
+        putc(col+i, row, *s++, font);
+}
+
+
 // same thing, but character is double-sized
 // col, row is still the position of a single-sized character
 void Ssd1306_128x64::putc2(int col, int row, char c, uint8_t font[128][5])

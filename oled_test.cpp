@@ -136,14 +136,10 @@ static void dots()
 
 static void chars()
 {
-    for (int cc = 0; cc < 16; cc++)
-        oled.putc(cc, 0, 0x20 + cc, font_5x7);
-    for (int cc = 0; cc < 16; cc++)
-        oled.putc(cc, 1, 0x30 + cc, font_5x7);
-    for (int cc = 0; cc < 16; cc++)
-        oled.putc(cc, 2, 0x40 + cc, font_5x7);
-    for (int cc = 0; cc < 16; cc++)
-        oled.putc(cc, 3, 0x50 + cc, font_5x7);
+    oled.puts(0, 0, " !\"#$%&'()*+,-./", font_5x7);
+    oled.puts(0, 1, "0123456789:;<=>?", font_5x7);
+    oled.puts(0, 2, "@ABCDEFGHIJKLMNO", font_5x7);
+    oled.puts(0, 3, "PQRSTUVWXYZ[\\]^_", font_5x7);
     oled.flush();
 }
 

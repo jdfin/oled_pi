@@ -20,6 +20,7 @@ class Ssd1306_128x64
     void flush();
     void set(int x, int y, int d=1);
     void putc(int x, int y, char c, uint8_t font[128][5]);
+    void puts(int x, int y, const char *s, uint8_t font[128][5]);
     void putc2(int col, int row, char c, uint8_t font[128][5]);
     void puts2(int col, int row, const char *s, uint8_t font[128][5]);
     void putc_at(int x, int y, char c, uint8_t font[128][5]);
